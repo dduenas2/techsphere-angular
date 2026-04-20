@@ -1,59 +1,95 @@
-# TechsphereAngular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.4.
+# TechSphere — Plataforma de Servicios Digitales (Angular)
 
-## Development server
 
-To start a local development server, run:
 
-```bash
+## Descripción
+
+Aplicación web SPA desarrollada con Angular 21 para la gestión y exploración de servicios tecnológicos digitales.
+
+
+
+## Demo
+
+- **Repositorio:** [GitHub](https://github.com/dduenas2/techsphere-angular)
+
+- **Despliegue:** [GitHub Pages](https://dduenas2.github.io/techsphere-angular/)
+
+
+
+## Tecnologías
+
+- Angular 21 (Standalone Components)
+
+- TypeScript 5.8
+
+- RxJS (Observables, BehaviorSubject)
+
+- Angular Router (Navegación SPA)
+
+- FormsModule (Two-Way Binding)
+
+- HttpClient (Carga de datos)
+
+- Bootstrap 5.3
+
+- localStorage (Persistencia)
+
+
+
+## Conceptos Angular Demostrados
+
+- Componentes standalone con templates y estilos
+
+- Interpolation binding {{ }}
+
+- Property binding [src], [class], [disabled]
+
+- Event binding (click), (input), (ngSubmit)
+
+- Two-way binding [(ngModel)]
+
+- Servicios inyectables con @Injectable
+
+- Angular Router con rutas parametrizadas
+
+- Observables y BehaviorSubject (RxJS)
+
+- AsyncPipe para datos reactivos
+
+- Control flow: @for, @if, @empty
+
+
+
+## Estructura del Proyecto
+
+src/app/
+
+- components/ — Navbar, Footer (compartidos)
+
+- models/ — Interfaz Service (TypeScript)
+
+- pages/ — 7 páginas: Home, Servicios, Detalle, Favoritos, Contacto, Gestión, Nosotros
+
+- services/ — TechsphereService (lógica centralizada)
+
+- app.routes.ts — Configuración de rutas
+
+- app.config.ts — Providers: Router, HttpClient
+
+
+
+## Ejecución Local
+
+npm install
+
 ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Abrir http://localhost:4200
 
-## Code scaffolding
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-```bash
-ng generate component component-name
-```
+## Autor
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+David Alejandro Dueñas C — Módulo Desarrollo de Front-End — 2026
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
