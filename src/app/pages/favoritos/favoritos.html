@@ -1,0 +1,61 @@
+<div class="page-header">
+  <div class="container">
+    <h1><i class="bi bi-heart me-2"></i>Mis Favoritos</h1>
+    <p>Servicios guardados · {{ favServices.length }} servicios</p>
+  </div>
+</div>
+<div class="breadcrumb-custom"><div class="container"><a routerLink="/">Inicio</a><span class="separator">›</span><strong>Favoritos</strong></div></div>
+
+<section class="section">
+  <div class="container">
+    <div class="alert alert-info d-flex align-items-center gap-2 mb-4" style="border-radius:var(--radius-sm)">
+      <i class="bi bi-info-circle-fill"></i> Tus favoritos se guardan con <strong>localStorage</strong>. Persisten al cerrar el navegador.
+    </div>
+
+    <div class="d-flex flex-column gap-3">
+      @for (service of favServices; track service.id) {
+        <div class="fav-item d-flex align-items-center gap-3 flex-wrap">
+          <img [src]="service.imagen" [alt]="service.nombre" class="fav-item-image">
+          <div class="flex-grow-1">
+            <div class="fw-bold mb-1">{{ service.nombre }}</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary)">{{ service.descripcionCorta }}</div>
+            <div class="mt-2">
+              <span class="tag" [class]="getTagClass(service.categoria)">{{ service.categoria }}</span>
+            </div>
+          </div>
+          <div class="text-end" style="min-width:110px">
+            <div class="fav-item-price">{{ formatPrice(service.precio) }}</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">{{ service.tipoPrecio }}</div>
+          </div>
+          <div class="d-flex gap-2">
+            <a [routerLink]="['/detalle', service.id]" class="btn btn-primary-custom btn-sm">Ver detalle</a>
+            <!-- Event binding: (click) -->
+            <button class="btn btn-sm" style="background:#FEE2E2;color:#EF4444" (click)="onRemove(service.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <div class="empty-state-icon"><i class="bi bi-heart"></i></div>
+          <h4>No tienes favoritos aún</h4>
+          <p>Explora nuestro catálogo y guarda los servicios que te interesen</p>
+          <a routerLink="/servicios" class="btn btn-primary-custom">Explorar Servicios</a>
+        </div>
+      }
+    </div>
+
+    @if (favServices.length > 0) {
+      <div class="mt-4 p-4 bg-white rounded-3 border d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <div>
+          <div style="font-size:0.85rem;color:var(--text-muted)">Total en favoritos</div>
+          <div style="font-size:1.5rem;font-weight:800">{{ favServices.length }} servicios</div>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-danger btn-sm" (click)="onClearAll()"><i class="bi bi-trash me-1"></i>Limpiar todo</button>
+          <a routerLink="/servicios" class="btn btn-primary-custom">Explorar más →</a>
+        </div>
+      </div>
+    }
+  </div>
+</section>

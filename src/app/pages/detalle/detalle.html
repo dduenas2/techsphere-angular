@@ -1,0 +1,80 @@
+<div class="breadcrumb-custom">
+  <div class="container">
+    <a routerLink="/">Inicio</a><span class="separator">›</span>
+    <a routerLink="/servicios">Servicios</a><span class="separator">›</span>
+    <strong>{{ service?.nombre || 'Cargando...' }}</strong>
+  </div>
+</div>
+
+@if (service) {
+<section class="section">
+  <div class="container">
+    <div class="row g-4 g-lg-5">
+      <div class="col-lg-6">
+        <div class="detail-image-main">
+          <img [src]="service.imagen" [alt]="service.nombre">
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <span class="tag" [class]="getTagClass(service.categoria)">{{ service.categoria }}</span>
+          @for (tech of service.tecnologias; track tech) { <span class="tag tag-green">{{ tech }}</span> }
+        </div>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;margin-bottom:0.75rem">{{ service.nombre }}</h1>
+        <div class="detail-meta mb-3">
+          <div class="detail-meta-item"><i class="bi bi-star-fill text-warning"></i> {{ service.rating }} ({{ service.resenas }} reseñas)</div>
+          <div class="detail-meta-item"><i class="bi bi-people"></i> {{ service.clientes }} clientes</div>
+          <div class="detail-meta-item"><i class="bi bi-clock"></i> {{ service.entrega }}</div>
+        </div>
+        <div class="detail-price mb-3">{{ formatPrice(service.precio) }} <small>{{ service.tipoPrecio }}</small></div>
+        <p style="color:var(--text-secondary);line-height:1.8;margin-bottom:1.5rem">{{ service.descripcionCompleta }}</p>
+        <h5 style="font-size:1rem;font-weight:700;margin-bottom:0.75rem">Características:</h5>
+        <ul class="feature-list mb-4">
+          @for (feat of service.caracteristicas; track feat) {
+            <li><span class="check"><i class="bi bi-check-circle-fill"></i></span> {{ feat }}</li>
+          }
+        </ul>
+        <div class="d-flex gap-3 flex-wrap">
+          <a routerLink="/contacto" class="btn btn-primary-custom btn-lg flex-grow-1 text-center">
+            <i class="bi bi-cart me-1"></i> Solicitar Servicio
+          </a>
+          <button class="btn btn-lg" [class]="isFavorite() ? 'btn-danger' : 'btn-outline-danger'" (click)="onToggleFavorite()">
+            <i class="bi" [class.bi-heart-fill]="isFavorite()" [class.bi-heart]="!isFavorite()"></i>
+            {{ isFavorite() ? 'En Favoritos' : 'Favoritos' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+@if (relatedServices.length > 0) {
+<section class="section" style="background:#F8FAFC">
+  <div class="container">
+    <h3 class="section-title text-center mb-4" style="font-size:1.5rem">Servicios Relacionados</h3>
+    <div class="row">
+      @for (s of relatedServices; track s.id) {
+        <div class="col-md-4 mb-4">
+          <div class="service-card">
+            <div class="card-img-wrapper"><img [src]="s.imagen" [alt]="s.nombre"></div>
+            <div class="card-body-custom">
+              <h5 class="card-title">{{ s.nombre }}</h5>
+              <p class="card-text">{{ s.descripcionCorta }}</p>
+            </div>
+            <div class="card-footer-custom">
+              <div class="card-price">{{ formatPrice(s.precio) }}</div>
+              <a [routerLink]="['/detalle', s.id]" class="btn btn-sm btn-primary-custom">Ver más →</a>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
+}
+} @else {
+<div class="section"><div class="container"><div class="empty-state">
+  <div class="empty-state-icon">🔍</div><h4>Servicio no encontrado</h4>
+  <a routerLink="/servicios" class="btn btn-primary-custom">Ver Catálogo</a>
+</div></div></div>
+}

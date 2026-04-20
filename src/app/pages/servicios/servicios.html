@@ -1,0 +1,74 @@
+<div class="page-header">
+  <div class="container">
+    <h1><i class="bi bi-grid me-2"></i>Catálogo de Servicios</h1>
+    <p>Encuentra la solución tecnológica perfecta para tu empresa</p>
+  </div>
+</div>
+
+<div class="breadcrumb-custom"><div class="container"><a routerLink="/">Inicio</a><span class="separator">›</span><strong>Servicios</strong></div></div>
+
+<section class="section">
+  <div class="container">
+    <!-- FILTROS: Two-way binding con [(ngModel)] -->
+    <div class="filters-bar d-flex flex-wrap gap-3 align-items-center">
+      <div class="flex-grow-1">
+        <input type="text" class="form-control" placeholder="🔍 Buscar servicios..."
+               [(ngModel)]="searchQuery" (input)="applyFilters()">
+      </div>
+      <select class="form-select" style="max-width:200px" [(ngModel)]="categoryFilter" (change)="applyFilters()">
+        <option value="all">Todas las categorías</option>
+        <option value="Web">Desarrollo Web</option>
+        <option value="Mobile">Apps Móviles</option>
+        <option value="Cloud">Cloud</option>
+        <option value="DevOps">DevOps</option>
+        <option value="IA">IA & ML</option>
+        <option value="Security">Seguridad</option>
+      </select>
+      <select class="form-select" style="max-width:180px" [(ngModel)]="sortFilter" (change)="applyFilters()">
+        <option value="">Ordenar por</option>
+        <option value="precio-asc">Precio: Menor</option>
+        <option value="precio-desc">Precio: Mayor</option>
+        <option value="rating">Mejor Valorado</option>
+        <option value="reciente">Más Reciente</option>
+      </select>
+      <span class="results-count">{{ filteredServices.length }} resultados</span>
+    </div>
+
+    <!-- GRID: @for con track -->
+    <div class="row">
+      @for (service of filteredServices; track service.id) {
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="service-card">
+            <div class="card-img-wrapper">
+              <img [src]="service.imagen" [alt]="service.nombre">
+              @if (service.badge) { <span class="card-badge-overlay">{{ service.badge }}</span> }
+              <button class="card-fav-btn" [class.active]="isFavorite(service.id)" (click)="onToggleFavorite(service.id, $event)">
+                <i class="bi" [class.bi-heart-fill]="isFavorite(service.id)" [class.bi-heart]="!isFavorite(service.id)"></i>
+              </button>
+            </div>
+            <div class="card-body-custom">
+              <div class="mb-2">
+                <span class="tag" [class]="getTagClass(service.categoria)">{{ service.categoria }}</span>
+                @for (tech of service.tecnologias.slice(0, 2); track tech) { <span class="tag tag-green">{{ tech }}</span> }
+              </div>
+              <h5 class="card-title">{{ service.nombre }}</h5>
+              <p class="card-text">{{ service.descripcionCorta }}</p>
+            </div>
+            <div class="card-footer-custom">
+              <div class="card-price">{{ formatPrice(service.precio) }}</div>
+              <a [routerLink]="['/detalle', service.id]" class="btn btn-sm btn-primary-custom">Ver más →</a>
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <div class="col-12">
+          <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <h4>No se encontraron servicios</h4>
+            <p>Intenta con otros términos de búsqueda</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

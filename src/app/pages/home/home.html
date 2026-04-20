@@ -1,0 +1,165 @@
+<!-- HERO -->
+<section class="hero-section">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div class="hero-badge">🚀 Plataforma de Servicios Digitales</div>
+        <h1 class="hero-title">Soluciones <span class="text-gradient">Tecnológicas</span> para tu Negocio</h1>
+        <p class="hero-description">Explora nuestro catálogo de servicios digitales: desarrollo web, aplicaciones móviles, soluciones cloud e inteligencia artificial.</p>
+        <div class="d-flex gap-3 flex-wrap">
+          <a routerLink="/servicios" class="btn btn-primary-custom btn-lg">Explorar Servicios <i class="bi bi-arrow-right ms-1"></i></a>
+          <a routerLink="/contacto" class="btn btn-outline-light btn-lg">Contactar</a>
+        </div>
+      </div>
+      <div class="col-lg-5 offset-lg-1 d-none d-lg-block">
+        <div class="hero-code-card">
+          <div class="code-dots">
+            <span style="background:#EF4444"></span>
+            <span style="background:#FBBF24"></span>
+            <span style="background:#22C55E"></span>
+          </div>
+          <div class="code-block">
+            <span class="comment">// Ahora con Angular 🅰️</span><br>
+            <span class="keyword">&#64;Component</span>({{ '{' }}<br>
+            &nbsp;&nbsp;selector: <span class="string">'app-techsphere'</span>,<br>
+            &nbsp;&nbsp;standalone: <span class="string">true</span>,<br>
+            {{ '}' }})<br>
+            <span class="keyword">export class</span> <span class="function">TechSphere</span> {{ '{' }} {{ '}' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-6 col-md-3"><div class="stat-item"><div class="stat-number">150<span>+</span></div><div class="stat-label">Servicios Disponibles</div></div></div>
+      <div class="col-6 col-md-3"><div class="stat-item"><div class="stat-number">2.5<span>K</span></div><div class="stat-label">Clientes Satisfechos</div></div></div>
+      <div class="col-6 col-md-3"><div class="stat-item"><div class="stat-number">99<span>%</span></div><div class="stat-label">Uptime Garantizado</div></div></div>
+      <div class="col-6 col-md-3"><div class="stat-item"><div class="stat-number">24<span>/7</span></div><div class="stat-label">Soporte Técnico</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS DESTACADOS: @for y property/event binding -->
+<section class="section">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-label">⭐ Destacados</div>
+      <h2 class="section-title">Servicios Más Populares</h2>
+      <p class="section-desc">Descubre las soluciones tecnológicas más solicitadas</p>
+    </div>
+    <div class="row">
+      @for (service of featuredServices; track service.id) {
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="service-card">
+            <div class="card-img-wrapper">
+              <img [src]="service.imagen" [alt]="service.nombre">
+              @if (service.badge) {
+                <span class="card-badge-overlay">{{ service.badge }}</span>
+              }
+              <!-- Event binding: (click) -->
+              <button class="card-fav-btn" [class.active]="isFavorite(service.id)" (click)="onToggleFavorite(service.id, $event)">
+                <i class="bi" [class.bi-heart-fill]="isFavorite(service.id)" [class.bi-heart]="!isFavorite(service.id)"></i>
+              </button>
+            </div>
+            <div class="card-body-custom">
+              <div class="mb-2">
+                <!-- Property binding: [class] -->
+                <span class="tag" [class]="getTagClass(service.categoria)">{{ service.categoria }}</span>
+                @for (tech of service.tecnologias.slice(0, 2); track tech) {
+                  <span class="tag tag-green">{{ tech }}</span>
+                }
+              </div>
+              <!-- Interpolation binding: {{ }} -->
+              <h5 class="card-title">{{ service.nombre }}</h5>
+              <p class="card-text">{{ service.descripcionCorta }}</p>
+            </div>
+            <div class="card-footer-custom">
+              <div class="card-price">{{ formatPrice(service.precio) }} <small>{{ formatPriceType(service.tipoPrecio) }}</small></div>
+              <a [routerLink]="['/detalle', service.id]" class="btn btn-sm btn-primary-custom">Ver más →</a>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="text-center mt-4">
+      <a routerLink="/servicios" class="btn btn-outline-custom btn-lg">Ver Todos los Servicios <i class="bi bi-arrow-right ms-1"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORÍAS con interpolation binding -->
+<section class="section" style="background:#fff">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-label">📂 Categorías</div>
+      <h2 class="section-title">Explora por Área</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-6 col-md-3"><a routerLink="/servicios" class="text-decoration-none"><div class="category-card" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)"><div class="icon">🌐</div><h5>Desarrollo Web</h5><p>{{ categoryCounts['Web'] || 0 }} servicios</p></div></a></div>
+      <div class="col-6 col-md-3"><a routerLink="/servicios" class="text-decoration-none"><div class="category-card" style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE)"><div class="icon">📱</div><h5>Apps Móviles</h5><p>{{ categoryCounts['Mobile'] || 0 }} servicios</p></div></a></div>
+      <div class="col-6 col-md-3"><a routerLink="/servicios" class="text-decoration-none"><div class="category-card" style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5)"><div class="icon">☁️</div><h5>Cloud & DevOps</h5><p>{{ (categoryCounts['Cloud'] || 0) + (categoryCounts['DevOps'] || 0) }} servicios</p></div></a></div>
+      <div class="col-6 col-md-3"><a routerLink="/servicios" class="text-decoration-none"><div class="category-card" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5)"><div class="icon">🤖</div><h5>IA & ML</h5><p>{{ categoryCounts['IA'] || 0 }} servicios</p></div></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="section">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-label">💬 Testimonios</div>
+      <h2 class="section-title">Lo Que Dicen Nuestros Clientes</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"TechSphere transformó nuestra presencia digital. El servicio de desarrollo web superó todas nuestras expectativas."</p>
+          <div class="d-flex align-items-center gap-3">
+            <div class="testimonial-avatar">MR</div>
+            <div><div class="testimonial-name">María Rodríguez</div><div class="testimonial-role">CEO, InnovateTech</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"La migración a la nube fue impecable. Reducimos costos un 40% con su solución cloud personalizada."</p>
+          <div class="d-flex align-items-center gap-3">
+            <div class="testimonial-avatar">CL</div>
+            <div><div class="testimonial-name">Carlos López</div><div class="testimonial-role">CTO, DataFlow</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Su equipo de IA nos ayudó a implementar chatbots que mejoraron nuestra atención al cliente en un 60%."</p>
+          <div class="d-flex align-items-center gap-3">
+            <div class="testimonial-avatar">AP</div>
+            <div><div class="testimonial-name">Ana Pérez</div><div class="testimonial-role">Directora, SmartRetail</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section pb-5">
+  <div class="container">
+    <div class="cta-section text-center text-white position-relative">
+      <h2 class="fw-bold mb-3 position-relative" style="font-size:2rem;font-family:'Space Grotesk',sans-serif">¿Listo para Impulsar tu Proyecto?</h2>
+      <p class="mb-4 position-relative" style="opacity:0.85">Únete a más de 2,500 empresas que confían en nosotros</p>
+      <div class="d-flex gap-3 justify-content-center flex-wrap position-relative">
+        <a routerLink="/servicios" class="btn btn-light btn-lg fw-bold" style="color:#2563EB">Explorar Servicios</a>
+        <a routerLink="/contacto" class="btn btn-outline-light btn-lg fw-bold">Contactar</a>
+      </div>
+    </div>
+  </div>
+</section>
